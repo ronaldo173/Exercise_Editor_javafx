@@ -31,4 +31,20 @@ public class Exercises {
     public SimpleStringProperty valueProperty() {
         return value;
     }
+
+    public void setKey(String key) {
+        this.key.set(key);
+    }
+
+    public void setValue(String value) {
+        this.value.set(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Exercises{" +
+                "key=" + key +
+                ", value=" + value +
+                '}';
+    }
 }

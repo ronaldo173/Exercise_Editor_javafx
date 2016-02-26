@@ -22,7 +22,8 @@ public class LoadDataFromPropToView {
         inputStream.close();
 
         for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-            if (entry.getKey().toString().startsWith("Exercise")) {
+            if (entry.getKey().toString().startsWith("Exercise") &&
+                    !entry.getKey().toString().endsWith("Exercise")) {
                 map.put(entry.getKey().toString(), new String(entry.getValue().toString().getBytes("ISO8859-1")));
             }
         }
