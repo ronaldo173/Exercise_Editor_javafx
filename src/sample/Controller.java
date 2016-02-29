@@ -1,9 +1,11 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +17,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
@@ -73,8 +76,8 @@ public class Controller implements Initializable {
 
 
                     for (File file : files) {
-                        if (file.getName().startsWith(nameLang)) {
-                           setPropToFile(file, key, newValue);
+                        if (file.getName().startsWith(nameLang) ) {
+                            setPropToFile(file, key, newValue);
                         }
                     }
 
@@ -85,6 +88,7 @@ public class Controller implements Initializable {
 
     /**
      * to set value in file by key and file name
+     *
      * @param file
      * @param key
      * @param newValue
@@ -93,11 +97,17 @@ public class Controller implements Initializable {
     private void setPropToFile(File file, String key, String newValue) {
 
         Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(file));
-            properties.setProperty(key, new String(newValue.getBytes(),"ISO8859-1"));
-            OutputStream out = new FileOutputStream(file);
-            properties.store(out, "1");
+        try (FileReader reader = new FileReader(file);
+        ) {
+
+            properties.load(reader);
+            properties.setProperty(key, newValue);
+
+            try (FileWriter writer = new FileWriter(file)) {
+                properties.store(writer, null);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -287,12 +297,25 @@ public class Controller implements Initializable {
 
     @FXML
     public void onClickExit() {
+        System.out.println("exit");
+       ((EventHandler<ActionEvent>) event -> Platform.exit()).handle(null);
 
     }
 
     private void getFileNames() {
+        FileFilter fileFilter = new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+              if (!pathname.isDirectory() && pathname.toString().endsWith(".properties")){
+                  return true;
+              }
+                return false;
+            }
+        };
+
+
         try {
-            files = standartPathTODir.listFiles();
+            files = standartPathTODir.listFiles(fileFilter);
             for (File file : files) {
                 System.out.println(file);
             }

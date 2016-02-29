@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.Controller">
+            fx:controller="sample.Controller" >
     <children>
         <VBox layoutX="273.0" layoutY="92.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -15,10 +15,10 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#onClickChooseDir" text="Choose dir..."/>
                                 <SeparatorMenuItem mnemonicParsing="false"/>
-                                <MenuItem mnemonicParsing="false" text="Exit"/>
+                                <MenuItem mnemonicParsing="false" text="Exit" onAction="#onClickExit"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Languages">
+                        <Menu mnemonicParsing="false" text="Fonts">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Delete"/>
                             </items>
